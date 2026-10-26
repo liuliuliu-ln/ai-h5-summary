@@ -1,0 +1,18 @@
+0 verbose cli D:\xz\node.js\node.exe D:\xz\node.js\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.19.0
+3 silly config load:file:D:\xz\node.js\node_modules\npm\npmrc
+4 silly config load:file:D:\my-ai-h5\.npmrc
+5 silly config load:file:C:\Users\86193\.npmrc
+6 silly config load:file:D:\my-ai-h5\%USERPROFILE%\.npm-packages\etc\npmrc
+7 verbose title npm exec vercel login
+8 verbose argv "exec" "--" "vercel" "login"
+9 verbose logfile logs-max:10 dir:D:\my-ai-h5\%USERPROFILE%\.npm-cache\_logs\2026-10-26T08_47_00_245Z-
+10 verbose logfile D:\my-ai-h5\%USERPROFILE%\.npm-cache\_logs\2026-10-26T08_47_00_245Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose cwd D:\my-ai-h5
+13 verbose os Windows_NT 10.0.26200
+14 verbose node v22.19.0
+15 verbose npm  v10.9.3
+16 verbose exit 1
+17 verbose code 1

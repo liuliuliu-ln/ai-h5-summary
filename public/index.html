@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 文本摘要</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f4f4f4; }
+    textarea { width: 100%; height: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+    button { width: 100%; padding: 12px; margin-top: 10px; background: #1989fa; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+    button:disabled { background: #a0cfff; }
+    #output { margin-top: 20px; padding: 15px; background: white; border-radius: 8px; min-height: 80px; line-height: 1.6; white-space: pre-wrap; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .error { color: red; margin-top: 10px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h2>AI 文本摘要助手</h2>
+  <textarea id="inputText" placeholder="粘贴需要摘要的长文本..."></textarea>
+  <button id="submitBtn">生成摘要</button>
+  <div id="errorMsg" class="error"></div>
+  <div id="output"></div>
+
+  <script>
+    const btn = document.getElementById('submitBtn');
+    const inputText = document.getElementById('inputText');
+    const output = document.getElementById('output');
+    const errorMsg = document.getElementById('errorMsg');
+    let controller = null;
+
+    btn.onclick = async () => {
+      // 如果正在生成，点击则停止
+      if (controller) {
+        controller.abort();
+        controller = null;
+        btn.textContent = '生成摘要';
+        btn.style.background = '#1989fa';
+        return;
+      }
+
+      const text = inputText.value.trim();
+      if (!text) return alert('请先输入文本');
+
+      // 状态重置
+      output.textContent = '';
+      errorMsg.textContent = '';
+      btn.textContent = '停止生成';
+      btn.style.background = '#ff4d4f';
+      controller = new AbortController();
+
+      try {
+        const res = await fetch('/api/summarize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+          signal: controller.signal
+        });
+
+        if (!res.ok) throw new Error('请求失败');
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed || !trimmed.startsWith('data:')) continue;
+            const dataStr = trimmed.slice(5).trim();
+            if (dataStr === '[DONE]') continue;
+            
+            try {
+              const json = JSON.parse(dataStr);
+              const content = json.choices?.[0]?.delta?.content;
+              if (content) output.textContent += content; // 逐字追加
+            } catch (e) {}
+          }
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          errorMsg.textContent = '生成失败，请检查终端报错或 API Key';
+        }
+      } finally {
+        controller = null;
+        btn.textContent = '生成摘要';
+        btn.style.background = '#1989fa';
+      }
+    };
+  </script>
+</body>
+</html>

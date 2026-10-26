@@ -1,0 +1,28 @@
+0 verbose cli D:\xz\node.js\node.exe D:\xz\node.js\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.19.0
+3 silly config load:file:D:\xz\node.js\node_modules\npm\npmrc
+4 silly config load:file:D:\my-ai-h5\.npmrc
+5 silly config load:file:C:\Users\86193\.npmrc
+6 silly config load:file:D:\my-ai-h5\%USERPROFILE%\.npm-packages\etc\npmrc
+7 verbose title npm init
+8 verbose argv "init" "--yes"
+9 verbose logfile logs-max:10 dir:D:\my-ai-h5\%USERPROFILE%\.npm-cache\_logs\2026-10-26T08_07_17_630Z-
+10 verbose logfile D:\my-ai-h5\%USERPROFILE%\.npm-cache\_logs\2026-10-26T08_07_17_630Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly package data {
+12 silly package data   name: 'my-ai-h5',
+12 silly package data   version: '1.0.0',
+12 silly package data   description: '',
+12 silly package data   main: 'index.js',
+12 silly package data   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+12 silly package data   keywords: [],
+12 silly package data   author: '',
+12 silly package data   license: 'ISC'
+12 silly package data }
+13 verbose cwd D:\my-ai-h5
+14 verbose os Windows_NT 10.0.26200
+15 verbose node v22.19.0
+16 verbose npm  v10.9.3
+17 verbose exit 0
+18 info ok
